@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; //   ȰȭǹǷ, ÷̾  ũƮ 
+using UnityEngine.UI; // 코인을 먹으면 코인이 비활성화되므로, 플레이어인 볼 스크립트에서 관리 
 using TMPro;
 
 public class Ball : MonoBehaviour
@@ -28,24 +28,24 @@ public class Ball : MonoBehaviour
     public AudioSource jumpSFX;
 
 
-    // ----- 게임 진행 중 내부적으로 관리되는 변수들 -----
+    // 게임 진행 중 내부적으로 관리되는 변수들
     public float score;
     public float fallcount;
 
 
-    // ----- 스크립트 내부에서만 사용되는 비공개 변수들 -----
+    // 스크립트 내부에서만 사용되는 비공개 변수들
     private Rigidbody rb;
     private bool isGrounded;
 
     // Start is called before the first frame update
-    void Start() //    ߵ
+    void Start() // 시작할 때 한 번 발동
     {
-        rb = this.gameObject.GetComponent<Rigidbody>(); // Ʈ ٵ 
+        rb = this.gameObject.GetComponent<Rigidbody>(); //공 오브젝트의 리지드바디에 접근
 
     }
 
     // Update is called once per frame
-    void FixedUpdate() // ߿ ؼ ߵ
+    void FixedUpdate() // 게임 중에 계속해서 발동
     {
         float h = Input.GetAxis("Horizontal"); //Horizontal   ִ ġ ´.
         float v = Input.GetAxis("Vertical"); //Vertical   ִ ġ ´.
