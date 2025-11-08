@@ -1,52 +1,57 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; //ÄÚÀÎÀ» ¸ÔÀ¸¸é ÄÚÀÎÀÌ ºñÈ°¼ºÈ­µÇ¹Ç·Î, ÇÃ·¹ÀÌ¾îÀÎ º¼ ½ºÅ©¸³Æ®¿¡¼­ °ü¸®
+using UnityEngine.UI; //   È°È­Ç¹Ç·, Ã·Ì¾  Å©Æ® 
 using TMPro;
 
 public class Ball : MonoBehaviour
 {
+    [Header("í”Œë ˆì´ì–´ ì„¤ì •")]
     public GameObject target;
+    public float moveSpeed = 0.2f;
+    public float jumpForce = 7;
 
-    Rigidbody rb;
-    float moveSpeed = 0.2f;
-    float jumpForce = 7;
-    bool isGrounded;
-
-    public TextMeshProUGUI scoreText;
-    public float score;
-
-    public TextMeshProUGUI fallcountText; //Ãß¶ôÈ½¼ö ±â·Ï TMP
-    public float fallcount;
-
-    public float maxSpeed;
-
-    public GameObject nextStage;
+    [Header("ê²Œì„ ê·œì¹™")]
     public float goalScore;
-
-    public GameObject youSuck;
     public float maxFallCount;
 
+    [Header("UI ìš”ì†Œ")]
+    public TextMeshProUGUI scoreText;
+    public float fallcountText;
+
+    [Header("ì”¬ ì˜¤ë¸Œì íŠ¸")]
+    public GameObject nextStage;
+    public GameObject youSuck;
     public GameObject retryStage;
 
-    /* »ç¿îµå Ãß°¡ (7¿ù 18ÀÏ) */
+    [Header("ì˜¤ë””ì˜¤")]
     public AudioSource jumpSFX;
 
+
+    // ----- ê²Œì„ ì§„í–‰ ì¤‘ ë‚´ë¶€ì ìœ¼ë¡œ ê´€ë¦¬ë˜ëŠ” ë³€ìˆ˜ë“¤ -----
+    public float score;
+    public float fallcount;
+
+
+    // ----- ìŠ¤í¬ë¦½íŠ¸ ë‚´ë¶€ì—ì„œë§Œ ì‚¬ìš©ë˜ëŠ” ë¹„ê³µê°œ ë³€ìˆ˜ë“¤ -----
+    private Rigidbody rb;
+    private bool isGrounded;
+
     // Start is called before the first frame update
-    void Start() //½ÃÀÛÇÒ ¶§ ÇÑ ¹ø ¹ßµ¿
+    void Start() //    ßµ
     {
-        rb = this.gameObject.GetComponent<Rigidbody>(); //°ø ¿ÀºêÁ§Æ®ÀÇ ¸®Áöµå¹Ùµğ¿¡ Á¢±Ù
+        rb = this.gameObject.GetComponent<Rigidbody>(); // Æ® Ùµ 
 
     }
 
     // Update is called once per frame
-    void FixedUpdate() //°ÔÀÓ Áß¿¡ °è¼ÓÇØ¼­ ¹ßµ¿
+    void FixedUpdate() // ß¿ Ø¼ ßµ
     {
-        float h = Input.GetAxis("Horizontal"); //Horizontal ÀÌ °®°í ÀÖ´Â ¼öÄ¡¸¦ °¡Á®¿Â´Ù.
-        float v = Input.GetAxis("Vertical"); //Vertical ÀÌ °®°í ÀÖ´Â ¼öÄ¡¸¦ °¡Á®¿Â´Ù.
+        float h = Input.GetAxis("Horizontal"); //Horizontal   Ö´ Ä¡ Â´.
+        float v = Input.GetAxis("Vertical"); //Vertical   Ö´ Ä¡ Â´.
 
-        //rb.velocity = new Vector3(h * moveSpeed, rb.velocity.y, v * moveSpeed); //¹æÇâÀ¸·Î °¡¼ÓÀ» ³Ö¾îÁÜ
-        rb.AddForce(new Vector3(h * moveSpeed, 0, v * moveSpeed), ForceMode.Impulse); //ÀÏÁ¤ÇÑ ÈûÀ¸·Î ¹Ğ±â (7¿ù 17ÀÏ »ç¿ëÃë¼Ò)
+        //rb.velocity = new Vector3(h * moveSpeed, rb.velocity.y, v * moveSpeed); //  Ö¾
+        rb.AddForce(new Vector3(h * moveSpeed, 0, v * moveSpeed), ForceMode.Impulse); //  Ğ± (7 17 )
         if (Input.GetKey(KeyCode.W))
         {
             rb.AddForce(target.transform.forward * moveSpeed);
@@ -70,34 +75,34 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1f); //¶¥¿¡ ÀÖ´Â »óÅÂÀÇ Á¤ÀÇ
-        Debug.DrawRay(transform.position, Vector3.down); //·¹ÀÌÀú¸¦ ¸Ê¿¡ Ç¥½Ã(¾À¿¡ »ı¼º)
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1f); // Ö´  
+        Debug.DrawRay(transform.position, Vector3.down); // Ê¿ Ç¥( )
                                                          //Debug.DrawRay(transform.position, new Vector3(0, -1,0));
 
-        //(230714 Ãß°¡)
+        //(230714 ß°)
         isGrounded = Physics.Raycast(this.gameObject.transform.position, Vector3.down, out RaycastHit hit, 1f);
-        //RaycastHit: ·¹ÀÌÀú¸¦ ½úÀ» ¶§ ¸¸³­ Äİ¶óÀÌ´õÀÇ Á¤º¸ (bool type = false, true)
+        //RaycastHit:     İ¶Ì´  (bool type = false, true)
 
-        //bool hitbox = (isGrounded) ? hit.transform.CompareTag("Ground") : false; //isGrounded°¡ true¸é ¾Õ¿¡²¨, false¹§ µÚ¿¡²¨
-        //isGrounded (·¹ÀÌÄ³½ºÆ®°¡ ½úÀ»¶§ ÀÖ´À³Ä ¾ø´À³Ä)
-        //¸¸¾à¿¡ ¾øÀ»¶§ = false; ?(hit.transform.CompareTag("Ground") : false } >> false¸¦ ¹İÈ¯
-        //¸¸¾à¿¡ ÀÖÀ»¶§ = true; ?(hit.transform.CompareTag("Ground") : false } >> hit.transform.CompareTag("Ground") //ÅÂ±×°¡ "±×¶ó¿îµå"ÀÎÁö È®ÀÎ 
+        //bool hitbox = (isGrounded) ? hit.transform.CompareTag("Ground") : false; //isGrounded true Õ¿, false Ú¿
+        //isGrounded (Ä³Æ®  Ö´ )
+        //à¿¡  = false; ?(hit.transform.CompareTag("Ground") : false } >> false È¯
+        //à¿¡  = true; ?(hit.transform.CompareTag("Ground") : false } >> hit.transform.CompareTag("Ground") //Â±×° "×¶" È® 
 
-        /*if (hitbox == true)  //hit.transform.CompareTag°¡ "Ground"ÀÏ ¶§
+        /*if (hitbox == true)  //hit.transform.CompareTag "Ground" 
         {
-            GameObject Ground = hit.transform.gameObject; //¸¸³­ ³ğÀÌ ±×¶ó¿îµå¶ó´Â ³ğÀÌ´Ù.
-            this.transform.parent = Ground.transform; //°øÀÇ ºÎ¸ğ°¡ ±×¶ó¿îµå°¡ µÊ.
+            GameObject Ground = hit.transform.gameObject; //  ×¶ Ì´.
+            this.transform.parent = Ground.transform; // Î¸ ×¶å°¡ .
         }
 
-        //if (hitbox == false)  //hit.transform.CompareTag°¡ "Ground"°¡ ¾Æ´Ò ¶§
+        //if (hitbox == false)  //hit.transform.CompareTag "Ground" Æ´ 
         //{
-        //    this.transform.parent = null; //°øÀÇ ºÎ¸ğ°¡ ±×¶ó¿îµå°¡ µÊ.
+        //    this.transform.parent = null; // Î¸ ×¶å°¡ .
         //}
         */
 
-        if (Input.GetButtonDown("Jump") && isGrounded) //"Á¡ÇÁ¶Û ¶§¿Í ¶¥¿¡ ÀÖÀ» ¶§"
+        if (Input.GetButtonDown("Jump") && isGrounded) //"    "
         {
-            jumpSFX.Play(); //Á¡ÇÁ ¼Ò¸® Ãß°¡ (7¿ù 18ÀÏ)
+            jumpSFX.Play(); // Ò¸ ß° (7 18)
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             //rb.AddForce(new Vector3.up * jumpForce, ForceMode.Impulse);
         }
@@ -116,7 +121,7 @@ public class Ball : MonoBehaviour
 
     public void PlusScore()
     {
-        score++; //score¿¡ +1
+        score++; //score +1
         scoreText.text = $"Score : {score}";
     }
 
