@@ -5,15 +5,14 @@ using UnityEngine;
 public class Respawn : MonoBehaviour
 {
     public GameObject ball;
-    public Ball ballsc;
     public GameObject spawnPoint;
     public AudioSource deadSFX;
 
-    public void RespawnBall() //¸®½ºÆù º¼ÀÌ¶ó´Â ÀÓÀÇÀÇ ÇÔ¼ö
+    public void RespawnBall() //ê³µì„ ë¦¬ìŠ¤í°ì‹œí‚¤ëŠ” í•¨ìˆ˜
     {
-        ball.transform.position = spawnPoint.transform.position; //º¼ À§Ä¡¸¦ ½ºÆùÆ÷ÀÎÆ® À§Ä¡·Î
+        ball.transform.position = spawnPoint.transform.position; //ê³µì˜ ìœ„ì¹˜ë¥¼ ìŠ¤í°í¬ì¸íŠ¸ì˜ ìœ„ì¹˜ë¡œ
 
-        ball.GetComponent<Rigidbody>().Sleep(); //¹°¸®ÀÛ¿ë ¹× Èû ÃÊ±âÈ­
+        ball.GetComponent<Rigidbody>().Sleep(); //ë¬¼ë¦¬ì  íš¨ê³¼ë¥¼ ë°›ëŠ” ê³µì„ ì´ˆê¸°í™”
         //ball.GetComponent <Rigidbody>().velocity = new Vector3(0, 0, 0);
         //ball.GetComponent<Rigidbody>().isKinematic = true;
         //ball.GetComponent<Rigidbody>().isKinematic = false;
@@ -25,7 +24,7 @@ public class Respawn : MonoBehaviour
         {
             deadSFX.Play();
             RespawnBall();
-            ballsc.FallCount();
+            GameManager.Instance.FallCount();
         }
     }
 }

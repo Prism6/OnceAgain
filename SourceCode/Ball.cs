@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; // 코인을 먹으면 코인이 비활성화되므로, 플레이어인 볼 스크립트에서 관리 
-using TMPro;
 
 public class Ball : MonoBehaviour
 {
@@ -11,27 +9,8 @@ public class Ball : MonoBehaviour
     public float moveSpeed = 0.2f;
     public float jumpForce = 7;
 
-    [Header("게임 규칙")]
-    public float goalScore;
-    public float maxFallCount;
-
-    [Header("UI 요소")]
-    public TextMeshProUGUI scoreText;
-    public float fallcountText;
-
-    [Header("씬 오브젝트")]
-    public GameObject nextStage;
-    public GameObject youSuck;
-    public GameObject retryStage;
-
     [Header("오디오")]
     public AudioSource jumpSFX;
-
-
-    // 게임 진행 중 내부적으로 관리되는 변수들
-    public float score;
-    public float fallcount;
-
 
     // 스크립트 내부에서만 사용되는 비공개 변수들
     private Rigidbody rb;
@@ -77,30 +56,5 @@ public class Ball : MonoBehaviour
             jumpSFX.Play();
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
-
-        // 3. 승리 조건: 현재 점수(score)가 목표 점수(goalScore)에 도달하면 다음 스테이지 UI를 활성화합니다.
-        if (score == goalScore)
-        {
-            nextStage.SetActive(true);
-        }
-
-        // 4. 패배 조건: 낙하 횟수(fallcount)가 최대 횟수(maxFallCount)에 도달하면 실패/재시도 UI를 활성화합니다.
-        if (fallcount == maxFallCount)
-        {
-            youSuck.SetActive(true);
-            retryStage.SetActive(true);
-        }
-    }
-
-    public void PlusScore()
-    {
-        score++; //score +1
-        scoreText.text = $"Score : {score}";
-    }
-
-    public void FallCount()
-    {
-        fallcount++;
-        fallcountText.text = $"Fall Count : {fallcount}";
     }
 }

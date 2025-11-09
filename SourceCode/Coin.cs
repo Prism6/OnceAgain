@@ -5,7 +5,6 @@ using UnityEngine;
 public class Coin : MonoBehaviour
 {
     public float rotateSpeed;
-    public Ball ballScript;
 
     public AudioSource collectCoinSFX;
 
@@ -18,19 +17,19 @@ public class Coin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(new Vector3(0, 0, rotateSpeed) * Time.deltaTime); //°Å²Ù·Î µ¹¸®°í ½ÍÀ¸¸é -°ªÀ» ÀÔ·ÂÇÑ´Ù.
+        transform.Rotate(new Vector3(0, 0, rotateSpeed) * Time.deltaTime); //ì½”ì¸ì´ ë¹™ê¸€ë¹™ê¸€ ëŒë„ë¡ Zì¶•ì„ ê¸°ì¤€ìœ¼ë¡œ íšŒì „ì‹œí‚µë‹ˆë‹¤.
         // transform.Rotate(new Vector3(0, 0, 60) * Time.deltaTime);
     }
 
-    private void OnTriggerEnter(Collider other) //Æ®¸®°Å¿¡ µé¾î¿ÔÀ» ¶§ ¹ßµ¿(ºÎµúÈ÷´Â Äİ¶óÀÌ´õÀÇ ÀÌ¸§À» other·Î ÁöÁ¤)
+    private void OnTriggerEnter(Collider other) //íŠ¸ë¦¬ê±°ì— ë¬´ì–¸ê°€ ë‹¿ì•˜ì„ ë•Œ ë°œë™ (ë‹¿ì€ ì½œë¼ì´ë”ì˜ ì •ë³´ë¥¼ otherì— ì €ì¥)
     {
-        if (other.gameObject.CompareTag("Player")) //ºÎµúÈù Äİ¶óÀÌ´õÀÇ ÅÂ±×°¡ "PlayerÀÏ ¶§"
+        if (other.gameObject.CompareTag("Player")) //ë‹¿ì€ ì½œë¼ì´ë”ì˜ íƒœê·¸ê°€ "Player"ì¼ ë•Œ
         {
-            collectCoinSFX.Play();//ÄÚÀÎ ¼Ò¸® Ãß°¡ (7¿ù 18ÀÏ)
-            Debug.Log("Äİ¶óÀÌ´õ Ãæµ¹ °¨Áö");
-            ballScript.PlusScore(); //PlusScore´Â ¿©±â¿¡ È£ÃâÇØ¾ß ÇÔ
+            collectCoinSFX.Play(); //ì½”ì¸ íšë“ ì‚¬ìš´ë“œ ì¬ìƒ
+            Debug.Log("ì½œë¼ì´ë” ì¶©ëŒ ê°ì§€");
+            GameManager.Instance.PlusScore(); //GameManagerì˜ ì ìˆ˜ ì¦ê°€ í•¨ìˆ˜ í˜¸ì¶œ
 
-            this.gameObject.SetActive(false);
+            this.gameObject.SetActive(false); //ì½”ì¸ ë¹„í™œì„±í™”
 
         }
     }
